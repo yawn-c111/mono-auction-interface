@@ -25,6 +25,7 @@ export default function ObjectChat() {
         console.log("result: ", result);
         setGeneration(result);
         setIsLoading(false);
+        setInput("");
         router.push(result);
       });
     });
@@ -42,7 +43,7 @@ export default function ObjectChat() {
         Generate
       </div> */}
 
-      <Flex direction="column" w="full" maxW="md" py={24} mx="auto">
+      <Flex direction="column" w="full" maxW="md" py={18} mx="auto">
         <Box 
           position="fixed"
           bottom={0}
