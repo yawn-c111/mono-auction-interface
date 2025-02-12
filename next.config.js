@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [process.env.NEXT_PUBLIC_PINATA_GATEWAY, 'dummyimage.com'],
+    domains: [process.env.NEXT_PUBLIC_PINATA_GATEWAY, 'dummyimage.com', 'gateway.pinata.cloud'],
   },
   experimental: {
     appDir: true,
