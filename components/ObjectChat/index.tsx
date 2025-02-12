@@ -37,12 +37,6 @@ export default function ObjectChat() {
 
   return (
     <div>
-      {/* <div
-        onClick={() => handleSubmit()}
-      >
-        Generate
-      </div> */}
-
       <Flex direction="column" w="full" maxW="md" py={18} mx="auto">
         <Box 
           position="fixed"
