@@ -8,9 +8,9 @@ export async function POST(req: Request) {
   const schema = z.object({
     page: z.union([
       z.literal("/").describe("ホームページ"),
-      z.literal("/product-detail").describe("詳細ページ、分類不明な場合はこれを選ぶ"),
-      z.literal("/sell").describe("販売ページ"),
-      z.literal("mypage").describe("マイページ"),
+      z.literal("/product-detail").describe("プロダクト詳細ページ、分類不明な場合はこれを選ぶ"),
+      z.literal("/sell").describe("商品を出品する"),
+      z.literal("mypage").describe("マイページ\nDeposit\nトークン残高\nデポジットコントラクトへのApprove額\n現在のデポジット額\nデポジットコントラクトへのApprove\nApprove\n追加デポジット\nDeposit\nデポジットを引き出す\nWithdraw"),
     ]),
     index: z.preprocess(
       (val) => typeof val === "string" ? Number(val) : val,
