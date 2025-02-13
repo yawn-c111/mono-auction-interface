@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       z.literal("/").describe("ホームページ"),
       z.literal("/product-detail").describe("プロダクト詳細ページ、分類不明な場合はこれを選ぶ"),
       z.literal("/sell").describe("商品を出品する"),
-      z.literal("mypage").describe("マイページ\nDeposit\nトークン残高\nデポジットコントラクトへのApprove額\n現在のデポジット額\nデポジットコントラクトへのApprove\nApprove\n追加デポジット\nDeposit\nデポジットを引き出す\nWithdraw"),
+      z.literal("/mypage").describe("マイページ\n設定\nDeposit\nトークン残高\nデポジットコントラクトへのApprove額\n現在のデポジット額\nデポジットコントラクトへのApprove\nApprove\n追加デポジット\nDeposit\nデポジットを引き出す\nWithdraw"),
     ]),
     index: z.preprocess(
       (val) => typeof val === "string" ? Number(val) : val,
@@ -19,8 +19,7 @@ export async function POST(req: Request) {
         z.literal(2).describe(`monoNFT#2 - Autumn\nThe artwork exhibited at the 1st Henkaku mono auction. 京都の「ギャラリー平野」にて2021年に開催した、抽象絵画の初個展「わたしの大切な種」展で展示した「日暮れ後」という作品です。フィジカルには、日本の伝統的なスタイルである「掛け軸」という形式で、秋のお軸として表装しました。デジタルというメディウムで描いた抽象絵画作品のNFTartです。`),
         z.literal(3).describe(`monoNFT#3 - big_roots01\nThe artwork exhibited at the 1st Henkaku mono auction. 北斎漫画をちょっと拝借した、大根の絵です。`),
         z.literal(4).describe(`monoNFT#4 - A.J.NFT Polygon #003\nThe artwork exhibited at the 1st Henkaku mono auction. 「一緒に食べませんか？」 あなたとパフェをシェアするエージェイちゃん`),
-        z.literal(5).describe(`monoNFT#5 - Tocha NYC
- The artwork exhibited at the 1st Henkaku mono auction. NFTで勝負する「闘茶 NYC」。花鳥風月客、五種類のお茶をニューヨークシティにて用意しました。お茶の銘柄、お店、値段を推測してみて下さい。視覚と想像力と第六感で勝負です。変化球あり。ミントと正解がわかります."Tocha NYC / Competitive Tea NYC". 花鳥風月客 (kachou fuugetsu kyaku) Flower, Bird, Wind, Moon and Guest: Five types of tea have been prepared in New York City. Please try to guess the tea names, shops and prices. It's a challenge using your visual perception, imagination and intuition. There are curveballs! Mint and unlock the answers.`),
+        z.literal(5).describe(`monoNFT#5 - Tocha NYC\nThe artwork exhibited at the 1st Henkaku mono auction. NFTで勝負する「闘茶 NYC」。花鳥風月客、五種類のお茶をニューヨークシティにて用意しました。お茶の銘柄、お店、値段を推測してみて下さい。視覚と想像力と第六感で勝負です。変化球あり。ミントと正解がわかります."Tocha NYC / Competitive Tea NYC". 花鳥風月客 (kachou fuugetsu kyaku) Flower, Bird, Wind, Moon and Guest: Five types of tea have been prepared in New York City. Please try to guess the tea names, shops and prices. It's a challenge using your visual perception, imagination and intuition. There are curveballs! Mint and unlock the answers.`),
         z.literal(6).describe(`monoNFT#6 - ライフロング・キンダーガーテン 創造的思考力を育む4つの原則\nThe artwork exhibited at the 1st Henkaku mono auction. ライフロング・キンダーガーテン 創造的思考力を育む4つの原則`),
         z.literal(7).describe(`monoNFT#7 - 洗心（茶杓）\nThe artwork exhibited at the 1st Henkaku mono auction. せんしん 心の塵を洗いおとすこと。心の煩累を洗い去り浄めること。また、改心すること。`),
         z.literal(8).describe(`monoNFT#8 - DROP SHIFT MECHANICAL KEYBOARD\nThe artwork exhibited at the 1st Henkaku mono auction. DROP SHIFT MECHANICAL KEYBOARD`),
@@ -49,7 +48,21 @@ export async function POST(req: Request) {
 
   const path = await generateObject({
     model: openai('gpt-4o'),
-    system: 'Determine which page the user wants to navigate to from their message. `page` must be one of these four values: /, /product-detail, /sell, mypage. If the page cannot be clearly categorized, choose /product-detail and include a valid `index` (a number between 1 and 16).',
+    system: `Determine which page the user wants to navigate to from their message. \`page\` must be one of these four values: /, /product-detail, /sell, mypage. If the page cannot be clearly categorized, choose /product-detail and include a valid \`index\` (a number between 1 and 16).
+    
+    Here's a directory structure to help understand the available pages:
+
+    / (Home)
+    ├── /product-detail
+    │   └── /[id] (1-16: Individual product pages)
+    ├── /sell (List item for sale)
+    └── /mypage (User settings, deposits, etc.)
+
+    For Japanese input, interpret:
+    - ホーム/トップページ -> /
+    - 商品/作品/NFT -> /product-detail
+    - 出品/販売 -> /sell 
+    - マイページ/デポジット -> /mypage`,
     prompt,
     schema,
   });
